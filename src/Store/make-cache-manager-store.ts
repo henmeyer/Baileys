@@ -93,18 +93,18 @@ const makeCacheManagerAuthState = async(store: Store, sessionKey: string) => {
 					await Promise.all(tasks)
 				},
 			},
-			writeData: async(file: string, data: object) => {
-				let ttl: number | undefined = undefined
-				if(file === 'creds') {
-					ttl = 63115200 // 2 years
-				}
-
-				await databaseConn.set(
-					defaultKey(file),
-					JSON.stringify(data, BufferJSON.replacer),
-					ttl
-				)
+		},
+		writeData: async(file: string, data: object) => {
+			let ttl: number | undefined = undefined
+			if(file === 'creds') {
+				ttl = 63115200 // 2 years
 			}
+
+			await databaseConn.set(
+				defaultKey(file),
+				JSON.stringify(data, BufferJSON.replacer),
+				ttl
+			)
 		}
 	}
 }
