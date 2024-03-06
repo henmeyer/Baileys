@@ -105,6 +105,20 @@ const makeCacheManagerAuthState = async(store: Store, sessionKey: string) => {
 				JSON.stringify(data, BufferJSON.replacer),
 				ttl
 			)
+		},
+		readData: async(file: string): Promise<AuthenticationCreds | null> => {
+			try {
+				const data = await databaseConn.get(defaultKey(file))
+
+				if(data) {
+					return JSON.parse(data as string, BufferJSON.reviver)
+				}
+
+				return null
+			} catch(error) {
+				logger.error(error)
+				return null
+			}
 		}
 	}
 }
